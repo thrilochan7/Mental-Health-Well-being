@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Header } from "@/components/Header";
 import { Card } from "@/components/ui/card";
 import { UserCircle2, MessageCircle, Users, Brain } from "lucide-react";
+import { ChatWidget } from "@/components/chat/ChatWidget";
+import { useChatStore } from "@/store/chatStore";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -32,7 +34,11 @@ export const Home = () => {
                 onChange={(e) => setQuestion(e.target.value)}
                 className="flex-1"
               />
-              <Button onClick={() => navigate('/chat', { state: { question } })}>
+              <Button onClick={() => {
+                useChatStore.getState().setInitialMessage(question);
+                useChatStore.getState().setIsOpen(true);
+                setQuestion('');
+              }}>
                 Ask Maya
               </Button>
             </div>
@@ -94,6 +100,7 @@ export const Home = () => {
           </Button>
         </section>
       </main>
+      <ChatWidget />
     </div>
   );
 };
